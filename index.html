@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ブログ風アプリ</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://kit.fontawesome.com/cf508f4499.js" crossorigin="anonymous"></script>
+
+  </head>
+
+<body>
+<!-- タイトルゾーン -->
+<h1>Trading Diary</h1>
+<h2>
+  total PL:  <div id="ruikeihyouji"></div>   Mil Yen
+</h2>
+
+<!-- 入力ゾーン  -->
+<div id="addlist">
+  <!-- 日付 -->
+  <div class=labeladd>
+      <input type="date" id="hizuke">
+  </div>
+
+  <!-- 度合い -->
+  <div>
+    <p class="kizuki">注目度</p>
+    <input type="range" name="speed" min="0" max="5" class="meter" id="doai">
+  </div>
+
+  <!-- 金額 -->
+  <div id="money">
+    <input type="number" id="okane" placeholder="Today'sPL">
+     <p>百万円</p>
+    
+  </div>
+</div>
+
+  <!-- メモ -->
+<div class="lower">
+<div class="label_memo">
+    <textarea id="memo" cols="30" rows="3" placeholder="Memo for today's deal"></textarea>
+</div>
+
+
+<div id="buttonzone">
+    <button id="send">保存</button>
+</div>
+</div>
+
+<!-- 入力ゾーン -->
+
+
+<!-- リストの表示 -->
+<div class="data_each titlecover">
+  <div class="hizuke title">日付</div>
+  <div class="doai title">注目度</div>
+  <div class="okane title">PL(百万円)</div>
+  <div class="memo title">メモ</div>
+  <div class="delete_each title"></div>
+</div>
+  <div id="output" style="overflow: auto;height: 350px;"></div>
+<!-- リストの表示 -->
+
+
+
+
+<!-- 以下JSの設定 -->
+    <!-- JQueryのコードを先に読み込む！ -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+     <!-- Firebaseのコードを貼り付ける -->
+     <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+
+      // 追加1
+      import { getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyCt675ZS_eSEBraWJB0ZbidqzBSntjaq2Q",
+        authDomain: "gsdemo-424c9.firebaseapp.com",
+        databaseURL: "https://gsdemo-424c9-default-rtdb.asia-southeast1.firebasedatabase.app",　
+        projectId: "gsdemo-424c9",
+        storageBucket: "gsdemo-424c9.appspot.com",
+        messagingSenderId: "993782450393",
+        appId: "1:993782450393:web:db94e56384f4f0d3fe16c8",
+        measurementId: "G-E6DCPCBKYQ"
+      };
+      // ！DatabaseURLが抜けていたら追加する必要あり！
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+
+      // 追加２
+      const db  = getDatabase(app); //RealtimeDBに接続
+      const dbRef = ref(db,"chat"); //RealtimeDB内の"chat"を使う  refは参照の意味があり。
+  
+      const analytics = getAnalytics(app);
+
+
+
+// JS記述
+          // 送信の処理
+    $('#send').on('click', function(){
+      const hizuke = $("#hizuke").val();
+      const okane = $("#okane").val();
+      const memo = $("#memo").val();
+
+      // オブジェクトの作成
+      const items = {
+        hizuke :$("#hizuke").val(),
+        okane :$("#okane").val(),
+        doai :$("#doai").val(),
+        memo :$("#memo").val()
+      }
+      
+      //ユニークKEYを生成(Firebaseのおまじない)
+      const newPostRef = push(dbRef);
+      //"chat"にユニークKEYをつけてオブジェクトデータを登録
+      set(newPostRef, items);
+
+      
+      });
+
+
+      const arrayPL =[];
+      // 合計PL取得用の配列（空）をつくる。
+
+      // 最初にデータを取得し、onSnapshotでリアルタイムに表示する
+      onChildAdded(dbRef, function(items){
+          const dt = items.val();
+          const key = items.key;
+
+
+          const html = `
+          <div data-key = ${key} class="data_each">
+            <div class="hizuke">${dt.hizuke}</div>
+            <div class="doai">${dt.doai}</div>
+            <div class="okane">${dt.okane}</div>
+            <div class="memo">${dt.memo}</div>
+            <div class="delete_each"><i class="fas fa-trash-alt" style="color:#ccc;"></i></div>
+          </div>
+          `;
+
+          $("#output").prepend(html);  
+
+        //合計PL表示用の操作 
+          const plNumber = Number(dt.okane);
+          // Firestoreから出してきた文字列を数字に
+
+          arrayPL.push(plNumber);
+          // 空配列にプッシュする
+
+          var sum = Math.floor(
+          arrayPL.reduce(function(a,b){
+          return a + b;
+          }));
+          // 配列内のものを全て合計する
+
+          console.log(sum);
+          // 合計値チェック
+
+          const hh = `
+          <div id="ruikei">${sum}<div>
+            `;
+          $("#ruikeihyouji").html(hh);
+          // HTMLに押し出す
+
+        // 重要度に応じて星をつける。
+          const juuyou = Number(dt.doai);
+          // 重要度を数字に
+      
+
+      });
+
+          console.log(arrayPL);
+          // 配列がしっかり表示されているかチェック
+
+          
+          
+ 
+        
+      // 個別削除ボタンの設定
+      // DOMで作ったもののアクションボタンについては$(document)からはじめる 
+
+      $(document).on("click", ".delete_each", function () {
+        const v = $(this).parent().data("key"); 
+        console.log(v);
+          // Keyの確認
+
+        remove(ref(db, 'chat/' + v));
+          // Keyをトリガーにした削除
+          
+        $(this).parent().remove();  
+          // HTML上での削除 
+        
+        });
+
+      </script>
+
+
+
+</body>
+</html>

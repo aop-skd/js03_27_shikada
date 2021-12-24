@@ -1,0 +1,229 @@
+body{  
+  font-family: "arial black", "Meiryo";
+
+}
+
+/* タイトルデザイン */
+h1{
+  text-align: center;
+  padding: 30px;
+  font-size: 50px;
+  font-family: "arial black", "Hiragino Sans";
+  color:#357Ec7;
+}
+
+h2{
+  display: flex;
+  justify-content: center;
+  font-size: 24px;
+  padding-bottom: 20px;
+  font-family: "arial black", "Hiragino Sans";
+  color:#357Ec7;
+  text-decoration: underline;
+}
+
+/* インプット */
+#addlist{
+  display: flex;
+  justify-content: center;
+
+
+}
+
+/* ボタンゾーン */
+#buttonzone{
+  display: flex;
+  justify-content: center;
+
+}
+
+/* 日付 */
+  .label_add{
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: 36px;
+    border: 2px solid #357ec7;
+    border-radius: 15px;
+    color: #357Ec7;
+  }
+
+  #hizuke{
+    position: relative;
+    padding: 0 10px;
+    width: 160px;
+    height: 36px;
+    border: 0;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #357Ec7;
+  }
+
+  #koumoku{
+    position: relative;
+    padding: 0 10px;
+    width: 150px;
+    height: 36px;
+    border: 0;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #357Ec7;
+  }
+  .kizuki{
+    text-align: center;
+  }
+
+  .meter{
+    position: relative;
+    padding: 0 10px;
+    width: 150px;
+    height: 36px;
+    border: 0;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #357Ec7;
+  }
+
+  #okane{
+    position: relative;
+    padding: 0 10px;
+    width: 110px;
+    height: 36px;
+    border: 0;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #357Ec7;
+  }
+
+  p{    
+    font-size: 14px;
+    color: #357Ec7;
+    padding-top:10px;
+
+  }
+
+  #money{
+    display: flex;
+    margin-right: 20px;
+  }
+
+   /* メモデザイン */
+   .label_memo {
+    position: relative;
+    width: 400px;
+    height: 100px;
+    margin: auto;
+    margin-bottom:10px;
+  }
+
+
+  #memo{
+    position: relative;
+    width: 400px;
+    height: 100px;
+    border: 0;
+    padding: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    border: #357ec7 solid 1px;
+    color: #357ec7;  
+
+  }
+
+
+  /* 送信ボタン */
+  #buttonzone {
+    position: relative;
+    width: 100px;
+    margin:auto;
+    height: 36px;
+    border: 2px solid #ccc;
+    background: #ccc;
+    border-radius: 15px;
+  }
+
+  #send{  
+    position: relative;
+    padding: 0 10px;
+    width: 100px;
+    margin:auto;
+    height: 36px;
+    border: 0;
+    background:transparent;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: bold;
+    color:white;
+
+  }
+
+  #send:hover{
+    width: 100px;
+    height: 36px;
+    color: #357Ec7;
+    border: 1px solid #357Ec7;
+    background: #ccc;
+    border-radius: 15px;
+    font-weight:bokd;
+  }
+
+
+  .data_each{
+    display: flex;
+    justify-content: left;
+    margin-top: 40px;
+    height:auto;
+
+  }
+
+  
+  .hizuke {
+    width: 100px;
+    text-align: center;
+  }
+
+  .doai {
+    width: 100px;
+    text-align: center;
+  }
+
+
+  .okane {
+    width: 100px;
+    text-align: center;
+  }
+
+
+  .memo {
+    width: 400px;
+    text-align: left;
+  }
+
+  .delete_each {
+    width: 100px;
+    text-align: center;
+  }
+
+
+
+  .title{
+    background-color: #3572c7;
+    color: white;
+    font-family: Meiryo;
+    height:30px;
+    padding-top:10px;
+    margin-top: 20px;
+    text-align: center;
+
+  }
+
+  .titlecover {
+    width: 800px;
+    margin: auto;
+  }
+
+    #output {
+      border: #357Ec7 solid 1px;
+      width: 800px;
+      margin: auto;
+  }
